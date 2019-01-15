@@ -8,8 +8,8 @@ function Nav(props){
   return(
     <div className='nav'>
     <Link to='/'>
-      <div className='logo'>
-      <img src={logo} alt="logo"/>
+      <div >
+      <img className='logo' src={logo} alt="logo"/>
       </div>
       </Link>
 

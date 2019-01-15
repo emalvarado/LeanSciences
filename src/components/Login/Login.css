@@ -1,32 +1,42 @@
 
 
 .loginpage {
-  padding-top: -104px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  text-align: left;
+  /* padding-top: -104px; */
+
   font-family: 'Open Sans Condensed', sans-serif;
   background-image: url(https://stafitnowaz.com/files/2018/01/bigstock-212328235.jpg);
   background-position: center;
   background-size: cover;
   height: 100vh;
-  padding: 0px 5%;
+  display: flex;
+  justify-content: space-around;
+  /* padding: 0px 5%; */
+}
+
+.mainbox {
+  position: relative;
+  top: 50px;
+  text-align: left;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100vw;
+  max-width: 1210px;
 }
 
 .loginbox {
   height: 65%;
-  padding: 0px 110px;
+  padding: 30px 70px;
   background-color: rgba(240, 255, 255, 0.542);
   border-radius: 50px;
 }
 
 .loginHeader {
-  margin: 30px 0;
+  margin: 10px 0;
 }
 
 .login {
- margin-bottom: 130px;
+ margin-bottom: 90px;
 }
 
 h1 {
@@ -40,13 +50,13 @@ h1 {
 }
 
 input {
-  width: 280px;
-  height: 30px;
+  width: 240px;
+  height: 20px;
   font-size: 20px;
 }
 
 .userInput {
-  font-size: 21px;
+  font-size: 17px;
   margin-bottom: 11px;
 }
 
@@ -57,7 +67,7 @@ p {
 .loginButton {
   float: right;
   margin: 10px 0;
-  font-size: 19px;
+  font-size: 15px;
   background-color: black;
   color: white;
   padding: 10px 15px;
