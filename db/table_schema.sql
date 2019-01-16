@@ -38,3 +38,9 @@ values ('1/1/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 1),
 
 
 
+insert into appointment(appt_date, appt_start, appt_end, appt_price, appt_paid, appt_confirmation, user_id)
+values ('1/1/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 5),
+('1/2/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 5),
+('1/3/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 5),
+('1/3/19', '2:00pm', '4:00pm', 120, true, 'confirmed', 6),
+('1/2/19', '12:00pm', '1:00pm', 60, true, 'confirmed', 7);

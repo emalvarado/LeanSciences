@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import './Login.css'
+import {connect} from 'react-redux'
+import {getUserData} from '../../ducks/reducer'
 
 class Login extends Component {
   constructor(props) {
@@ -26,6 +28,7 @@ class Login extends Component {
     const { email, password, confirmPass, first, last, phone } = this.state
     if (password === confirmPass) {
       let res = await axios.post('/auth/register', { email, password, first, last, phone })
+      this.props.getUserData(res.data.userData)
       if (res.data.loggedIn) {
         this.props.history.push('/')
       } else {
@@ -40,6 +43,7 @@ class Login extends Component {
   login = () => {
     const { email, password } = this.state
     axios.post('/auth/login', { email, password }).then(res => {
+      this.props.getUserData(res.data.userData)
       if (res.data.loggedIn) {
         this.props.history.push('/')
       } else {
@@ -50,6 +54,7 @@ class Login extends Component {
     })
 
   }
+
 
 
   render() {
@@ -112,4 +117,5 @@ class Login extends Component {
   }
 }
 
-export default Login
+
+export default connect(null, {getUserData}) (Login)

@@ -28,6 +28,12 @@ module.exports = {
     }
     req.session.user = {id: user[0].id, email:user[0].user_email, first: user[0].user_first, last: user[0].user_last, phone: user[0].user_phone, admin: user[0].admin}
     res.status(200).send({message: 'logged in', userData: req.session.user, loggedIn: true})
+  },
+
+  logout: async (req, res) => {
+    const db = req.app.get('db')
+    req.session.destroy();
+    return res.sendStatus(200)
   }
 
 }

@@ -1,8 +1,6 @@
 
 
 .loginpage {
-  /* padding-top: -104px; */
-
   font-family: 'Open Sans Condensed', sans-serif;
   background-image: url(https://stafitnowaz.com/files/2018/01/bigstock-212328235.jpg);
   background-position: center;
@@ -10,7 +8,8 @@
   height: 100vh;
   display: flex;
   justify-content: space-around;
-  /* padding: 0px 5%; */
+  position: absolute;
+  top: 0;
 }
 
 .mainbox {
@@ -26,6 +25,7 @@
 
 .loginbox {
   height: 65%;
+  max-height: 540px;
   padding: 30px 70px;
   background-color: rgba(240, 255, 255, 0.542);
   border-radius: 50px;
@@ -47,6 +47,7 @@ h1 {
 .inputs {
   display: flex;
   flex-direction: column;
+  margin-top: 30px;
 }
 
 input {

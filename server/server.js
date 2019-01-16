@@ -2,7 +2,9 @@ require('dotenv').config()
 const express = require('express')
 const massive = require('massive')
 const session = require('express-session')
-const authCtrl = require('./auth_controller')
+const authCtrl = require('./controllers/auth_controller')
+const schedCtrl = require('./controllers/sched_controller')
+
 
 const {SERVER_PORT, SECRET, CONNECTION_STRING} = process.env
 
@@ -30,3 +32,12 @@ massive(CONNECTION_STRING).then(db=> {
 app.post('/auth/register', authCtrl.register)
 
 app.post('/auth/login', authCtrl.login)
+
+app.get('/auth/logout', authCtrl.logout)
+
+
+
+//schedule
+
+app.get('/api/appts', schedCtrl.getAllClientAppts)
+
