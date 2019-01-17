@@ -30,17 +30,25 @@ values ('l', 'a', 'l', 'l', '0', true),
 
 
 insert into appointment(appt_date, appt_start, appt_end, appt_price, appt_paid, appt_confirmation, user_id)
-values ('1/1/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 1),
-('1/2/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 1),
-('1/3/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 1),
-('1/3/19', '2:00pm', '4:00pm', 120, true, 'confirmed', 2),
-('1/2/19', '12:00pm', '1:00pm', 60, true, 'confirmed', 3);
+values ('1/1/19', '12:00pm', '6:00pm', 0, true, true, 1),
+('1/2/19', '12:00pm', '6:00pm', 0, true, true, 1),
+('1/3/19', '12:00pm', '6:00pm', 0, true, true, 1),
+('1/3/19', '2:00pm', '4:00pm', 120, true, true, 2),
+('1/2/19', '12:00pm', '1:00pm', 60, true, true, 3);
 
 
 
 insert into appointment(appt_date, appt_start, appt_end, appt_price, appt_paid, appt_confirmation, user_id)
-values ('1/1/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 5),
-('1/2/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 5),
-('1/3/19', '12:00pm', '6:00pm', 0, true, 'confirmed', 5),
-('1/3/19', '2:00pm', '4:00pm', 120, true, 'confirmed', 6),
-('1/2/19', '12:00pm', '1:00pm', 60, true, 'confirmed', 7);
+values ('1/1/19', '12:00pm', '6:00pm', 0, true, true, 5),
+('1/2/19', '12:00pm', '6:00pm', 0, true, true, 5),
+('1/3/19', '12:00pm', '6:00pm', 0, true, true, 5),
+('1/3/19', '2:00pm', '4:00pm', 120, true, true, 6),
+('1/2/19', '12:00pm', '1:00pm', 60, true, true, 7);
+
+
+insert into appointment(appt_date, appt_start, appt_end, appt_price, appt_paid, appt_confirmation, user_id)
+values 
+('1/2/19', '12:00pm', '1:30pm', 0, true, true, 6),
+('1/3/19', '12:00pm', '2:00pm', 0, true, true, 7),
+('1/3/19', '2:00pm', '3:30pm', 120, true, false, 6),
+('1/2/19', '12:00pm', '1:00pm', 60, true, false, 7);

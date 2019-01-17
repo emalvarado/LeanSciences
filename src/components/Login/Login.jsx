@@ -3,6 +3,8 @@ import axios from 'axios'
 import './Login.css'
 import {connect} from 'react-redux'
 import {getUserData} from '../../ducks/reducer'
+import Swal from 'sweetalert2'
+
 
 class Login extends Component {
   constructor(props) {
@@ -28,26 +30,48 @@ class Login extends Component {
     const { email, password, confirmPass, first, last, phone } = this.state
     if (password === confirmPass) {
       let res = await axios.post('/auth/register', { email, password, first, last, phone })
-      this.props.getUserData(res.data.userData)
       if (res.data.loggedIn) {
+      this.props.getUserData(res.data.userData)
         this.props.history.push('/')
       } else {
-        alert(res.data.message)
+        const message = res.data.message
+        // console.log(message)
+        Swal({
+          type: 'error',
+          title: 'Oops...',
+          text: message,
+          footer: 'Please try again'
+        })
+        // alert(res.data.message)
 
       }
     } else {
-      alert('Passwords do not match')
+      Swal({
+        type: 'error',
+        title: 'Oops...',
+        text: 'Passwords do not match',
+        footer: 'Please try again'
+      })
+      // alert('Passwords do not match')
     }
   }
 
   login = () => {
     const { email, password } = this.state
     axios.post('/auth/login', { email, password }).then(res => {
-      this.props.getUserData(res.data.userData)
       if (res.data.loggedIn) {
+      this.props.getUserData(res.data.userData)
         this.props.history.push('/')
       } else {
-        alert(res.data.message)
+        const message = res.data.message
+        // console.log(message)
+        Swal({
+          type: 'error',
+          title: 'Oops...',
+          text: message,
+          footer: 'Please try again'
+        })
+        // alert(res.data.message)
       }
     }).catch(err => {
       console.log(err)
