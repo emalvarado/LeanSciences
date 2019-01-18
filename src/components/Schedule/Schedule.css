@@ -2,14 +2,7 @@
     color: rgb(95, 156, 158);
 }
 
-.calender {
-    height: 80vh;
-    padding: 3rem;
-    display: flex;
-    justify-content: center;
-}
-
-.rbc-calendar {
-    width: 100%;
-    max-width: 1200px;
+.timesBox {
+    height: 200px;
+    overflow: scroll;
 }

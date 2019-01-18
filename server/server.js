@@ -41,3 +41,7 @@ app.get('/auth/logout', authCtrl.logout)
 
 app.get('/api/appts', schedCtrl.getAllClientAppts)
 
+app.get('/api/avail', schedCtrl.getAvailability)
+
+app.post('/api/appt', schedCtrl.createAppt)
+
