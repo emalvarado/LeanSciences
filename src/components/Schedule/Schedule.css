@@ -6,3 +6,20 @@
     height: 200px;
     overflow: scroll;
 }
+
+.apptCreator {
+    position: fixed;
+    background-color: gray;
+    border-radius: 40px;
+    height: 50vh;
+    width: 80vw;
+    margin: 2% 10%;
+    display: flex;
+    flex-direction: column;
+}
+
+.apptContainers {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

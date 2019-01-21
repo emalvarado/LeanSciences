@@ -6,7 +6,8 @@ const authCtrl = require('./controllers/auth_controller')
 const schedCtrl = require('./controllers/sched_controller')
 
 
-const {SERVER_PORT, SECRET, CONNECTION_STRING} = process.env
+const {SERVER_PORT, SECRET, CONNECTION_STRING, STRIPE_SECRET_KEY} = process.env
+var stripe = require("stripe")(STRIPE_SECRET_KEY)
 
 const app = express()
 app.use(express.json())
@@ -43,5 +44,29 @@ app.get('/api/appts', schedCtrl.getAllClientAppts)
 
 app.get('/api/avail', schedCtrl.getAvailability)
 
+app.get('/api/appts/:user_id', schedCtrl.getSingleClientAppt)
+
 app.post('/api/appt', schedCtrl.createAppt)
 
+app.put('/api/appt/:appt_id', schedCtrl.editComment)
+
+app.delete('/api/appt/:appt_id', schedCtrl.deleteAppt)
+
+
+
+
+//stripe
+
+app.post("/payment", async (req, res) => {
+  try {
+    let {status} = await stripe.charges.create({
+      source: req.body.token.id,
+      amount: req.body.amount,
+      currency: "usd"
+    });
+
+    res.json({status});
+  } catch (err) {
+    res.status(500).end();
+  }
+});
