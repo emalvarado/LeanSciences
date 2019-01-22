@@ -12,6 +12,8 @@ import DayPicker from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
 import Swal from 'sweetalert2'
 import StripeCheckout from "react-stripe-checkout";
+import Checkout from '../stripe/Checkout';
+import {getUserData} from '../../ducks/reducer'
 
 
 
@@ -28,29 +30,37 @@ class Schedule extends Component {
       duration: 0,
       pricePerHour: 60,
       paid: false,
-      showApptCreator: false
+      showApptCreator: false,
+      start: '',
+      end: ''
 
     }
   }
 
   componentDidMount() {
-    const { user } = this.props
-    if (user.admin === true) {
-      this.getAllClientAppts()
-      this.getAvailability()
-
-    }
-    // console.log(new Date())
-    // console.log(new Date(moment().add(1, "days")),)
-    if (user.id && !user.admin) {
-      this.getAvailability()
-      this.getSingleClientAppts()
-    }
+    this.multiDoer()
   }
 
-  // componentDidUpdate(oldProps) {
+  componentDidUpdate(prevProps) {
+    // console.log(prevProps.user.id, this.props.user.id)
+    if(prevProps.user.id !== this.props.user.id) {
+        this.multiDoer()
+      }
+  }
 
-  // }
+
+
+  multiDoer() {
+        const { user } = this.props
+        if (user.admin === true) {
+          this.getAllClientAppts()
+          this.getAvailability()
+        }
+        if (user.id && !user.admin) {
+          this.getAvailability()
+          this.getSingleClientAppts()
+        }
+  }
 
   getAllClientAppts = async () => {
     const res = await axios.get('/api/appts')
@@ -108,16 +118,38 @@ class Schedule extends Component {
   createAppt = async () => {
     const { selectedDay: date, duration, pricePerHour, paid } = this.state
     const { selectedTime: start, user } = this.props
-    const startTime = moment(start, 'hh:mm a')
+    const startTime = moment(start, 'h:mm a').subtract(30, 'm')
     const endTime = startTime.add(duration, 'm')
     const end = endTime.format('h:mm a')
     // console.log(duration)
     let price = (duration / 60) * pricePerHour
 
-    let res = await axios.post('/api/appt', { date, start, end, price, paid, user_id: user.id })
+    // let res = await axios.post('/api/appt', { date, start, end, price, paid, user_id: user.id })
+    while (endTime > startTime){
+      let slot = startTime.clone().add(30, 'm').format('h:mm A')
+      let res = await axios.put(`/api/appt/${user.id}`, {date, start: slot})
+      startTime.add(30, 'm')
+    }
     this.getSingleClientAppts()
+    this.toggleApptCreator()
+
     // console.log(res.data)
 
+  }
+
+  addAvailability = async () => {
+    const { start, end, selectedDay: date } = this.state
+    let startTime = moment(start, 'h:mm a').subtract(30, 'm')
+    let endTime = moment(end, 'h:mm a').subtract(1, 'h')
+    let initialTime = moment(start, 'h:mm a')
+    let avail = [initialTime]
+    while (endTime > startTime) {
+      let slot = startTime.clone().add(30, 'm').format('h:mm A')
+      let res = await axios.post('/api/appt', { date, start: slot, user_id: this.props.user.id })
+      startTime.add(30, 'm')
+    }
+    this.getAvailability()
+    // this.toggleApptCreator()
   }
 
   toggleEdit = async (id) => {
@@ -141,20 +173,13 @@ class Schedule extends Component {
     )
   }
 
-  onToken = async token => {
-    const body = {
-      amount: 999,
-      token: token
-    };
-    let res = await axios.post("http://localhost:4000/payment", body)
-    console.log(res);
-    alert("Payment Success");
-  };
+
 
 
 
 
   render() {
+    
     const { appts, avail, selectedDay, duration, pricePerHour } = this.state
     let apptsToDisplay = appts.map((appt, i) => {
       return <Appointment key={i}
@@ -186,25 +211,25 @@ class Schedule extends Component {
           id={slot.id}
           date={slot.appt_date}
           start={slot.appt_start}
-          end={slot.appt_end}
           userId={slot.user_id}
           selectedDay={selectedDay} />
       }
     })
 
-    const publishableKey = "pk_test_FLghdYFLkoTz2zNOcKlZRKWU";
 
 
 
     return (
-      <div>
+      <div className={this.state.showApptCreator ? 'blur' : null}>
 
         {
-          this.state.avail[0] ?
+          this.state.avail[0] && !this.props.user.admin ?
             <div>
               <button onClick={this.toggleApptCreator}>Schedule an Appointment</button>
-              {this.state.showApptCreator ?
+
+              <div className={this.state.showApptCreator ? 'apptCreatorBackground' : 'apptCreatorBackground hidden'} >
                 <div className='apptCreator'>
+
                   <h1>Availability</h1>
                   <div className='apptContainers'>
                     <div className='calender'>
@@ -220,10 +245,10 @@ class Schedule extends Component {
                         )}
                     </div>
 
-                      <ul className='timesBox'>
-                        {availToDisplay}
+                    <ul className='timesBox'>
+                      {availToDisplay}
 
-                      </ul>
+                    </ul>
 
                     <div className='durationSelection'>
                       {this.props.selectedTime}
@@ -231,7 +256,7 @@ class Schedule extends Component {
                       <label for="duration">Select a duration:</label>
                       <select onChange={(e) => { this.handleChange('duration', e.target.value) }}
                         name="Duration" id="duration"> Duration:
-          <option value=''>--select a duration--</option>
+                        <option value=''>--select a duration--</option>
                         <option value='30'>30 Minutes</option>
                         <option value='60'>60 Minutes</option>
                         <option value='90'>90 Minutes</option>
@@ -239,26 +264,19 @@ class Schedule extends Component {
                       </select>
 
 
-                      <StripeCheckout
-                        label="Pay Now" //Component button text
-                        // name="Lean Sciences" //Modal Header
-                        // description="Pay for your session."
-                        panelLabel="Pay Now" //Submit button in modal
-                        amount={(duration / 60) * pricePerHour * 100} //Amount in cents $9.99
-                        token={this.onToken}
-                        stripeKey={publishableKey}
-                        billingAddress={false}
+                      <Checkout
+                        amount={(duration / 60) * pricePerHour * 100}
                       />
 
                       <button onClick={this.createAppt}>Schedule Session</button>
 
                     </div>
                   </div>
-
+                  <button onClick={this.toggleApptCreator}>Cancel</button>
                 </div>
-                :
-                null
-              }
+
+
+              </div>
 
             </div>
             :
@@ -269,6 +287,54 @@ class Schedule extends Component {
 
         {this.state.appts[0] && this.props.user.admin === true ?
           <div>
+            <button onClick={this.toggleApptCreator}>Add Availability</button>
+
+            <div className={this.state.showApptCreator ? 'apptCreatorBackground' : 'apptCreatorBackground hidden'} >
+              <div className='apptCreator'>
+
+                <h1>Availability</h1>
+                <div className='apptContainers'>
+                  <div className='calender'>
+                    <DayPicker
+                      onDayClick={this.handleDayClick}
+                      selectedDays={this.state.selectedDay}
+                      disabledDays={this.state.disabledDays}
+                    />
+                    {this.state.selectedDay ? (
+                      <p>{this.state.selectedDay.toLocaleDateString()}</p>
+                    ) : (
+                        <p>Please select a day.</p>
+                      )}
+                  </div>
+                  <ul className='timesBox'>
+                    {availToDisplay}
+
+                  </ul>
+
+
+                  <div className='timeSelection'>
+                    <div>
+                      <label>Start time:</label>
+                      <input onChange={e => this.handleChange('start', e.target.value)} type="text" placeholder='h:mm am' />
+                    </div>
+                    <div>
+                      <label>End time:</label>
+                      <input onChange={e => this.handleChange('end', e.target.value)} type="text" placeholder='h:mm am' />
+                    </div>
+                    <button className='addBtn' onClick={this.addAvailability}>Add Availability</button>
+                  </div>
+
+
+
+
+                </div>
+                <button onClick={this.toggleApptCreator}>Cancel</button>
+              </div>
+
+
+            </div>
+
+
 
             <h1>Schedule</h1>
             <table>
@@ -328,4 +394,4 @@ class Schedule extends Component {
 
 const mapStateToProps = reduxState => reduxState
 
-export default connect(mapStateToProps, { selectTime })(Schedule)
+export default connect(mapStateToProps, { selectTime, getUserData })(Schedule)

@@ -39,5 +39,13 @@ module.exports = {
     const {appt_id} = req.params
     const removed = await db.delete_appt({appt_id})
     res.sendStatus(200)
+  },
+
+  updateAvailability: async (req, res) => {
+    const db = req.app.get('db')
+    const {user_id} = req.params
+    const {date, start} = req.body
+    const update = await db.update_avail({user_id, date, start})
+    res.status(200).send(update)
   }
 }

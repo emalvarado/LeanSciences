@@ -4,18 +4,22 @@ import './App.css';
 import NavComp from './components/Nav/Nav'
 import routes from './routes'
 import Footer from './components/Footer/Footer';
+import {withRouter} from 'react-router-dom';
+import {getUserData} from './ducks/reducer'
+import {connect} from 'react-redux'
+import axios from 'axios'
 
 class App extends Component {
 
-// state = {
-//   user: {}
-// }
+componentDidMount(){
+axios.get('/api/user').then( res => {
+  this.props.getUserData(res.data)
+}
 
-// updateUser(user) {
-//   this.setState({
-//     user
-//   })
-// }
+).catch(err => {
+
+})
+}
 
   render() {
     return (
@@ -28,4 +32,5 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(connect(null, {getUserData})(App));
+// export default App

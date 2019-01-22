@@ -7,19 +7,51 @@
     overflow: scroll;
 }
 
-.apptCreator {
+.apptCreatorBackground {
     position: fixed;
-    background-color: gray;
-    border-radius: 40px;
-    height: 50vh;
-    width: 80vw;
-    margin: 2% 10%;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(15, 46, 78, 0.875);
+    z-index: 2;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    padding-top: 10%;
+
+}
+
+.apptCreator {
+    height: fit-content;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 5px 5px 17px;
+    background-color: #eff2f7;
+}
+
+.hidden {
+    display: none;
+    transition: 1s ease-in-out;
+
 }
 
 .apptContainers {
     display: flex;
     justify-content: space-around;
     align-items: center;
+}
+
+.blur {
+    filter: blur(1.5 rem)
+}
+
+.timeSelection {
+    display: flex;
+    flex-direction: column;
+    text-align: start;
+
+}
+
+.addBtn {
+    float: right;
 }

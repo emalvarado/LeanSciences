@@ -8,18 +8,21 @@ function Appointment(props) {
   const endTime = moment(end, 'hh:mm a')
   const startTime = moment(start, 'hh:mm a')
   const duration = moment.duration(endTime.diff(startTime)).as('m')
+  const formattedDate = moment(date).format('L')
+  const formattedStart = startTime.format('h:mm a')
   // console.log(duration)
   if (props.admin === true) {
     return (
       <tr>
         <td>{first} {last}</td>
-        <td type='date'>{date}</td>
-        <td>{start}</td>
+        <td type='date'>{formattedDate}</td>
+        <td>{formattedStart}</td>
         <td>{duration} </td>
         <td>{paid ? 'Paid' : 'Payment needed'}</td>
         <td>{email}</td>
         <td>{phone}</td>
         <td>{comment}</td>
+        <td> <button onClick={()=>props.deleteAppt(id)}>Delete</button></td>
       </tr>
 
 
@@ -27,8 +30,8 @@ function Appointment(props) {
   } else {
     return (
       <tr>
-        <td type='date'>{date}</td>
-        <td>{start}</td>
+        <td type='date'>{formattedDate}</td>
+        <td>{formattedStart}</td>
         <td>{duration} </td>
         <td>{paid ? 'Paid' : 'Payment needed'}</td>
         <td>{comment}</td>

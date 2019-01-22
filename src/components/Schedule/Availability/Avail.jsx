@@ -3,6 +3,7 @@ import moment from 'moment'
 import './Avail.css'
 import { connect } from 'react-redux'
 import { selectTime } from '../../../ducks/reducer'
+import { link } from 'fs';
 
 
 
@@ -12,54 +13,34 @@ class Avail extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      timeSlots: [],
-      // selectedTime: ''
-    }
+    // this.state = {
+    //   timeSlots: [],
+    //   // selectedTime: ''
+    // }
   }
 
 
 
   render() {
     const { id, date, start, end, userId } = this.props
-    let dateFormat = moment(date).format('dddd')
-
-    let startTime = moment(start, 'HH:mm')
-    let endTime = moment(end, "HH:mm").subtract(1, 'h')
-    let initialTime = moment(start, 'HH:mm')
-    let slots = [initialTime]
-
-    while (endTime > startTime) {
-      let slot = startTime.clone().add(30, 'm')
-      slots.push(slot)
-      startTime.add(30, 'm')
-    }
-
-    // console.log(slots)
-
-    let slotsToDisplay = slots.map((slot, i) => {
-      return <li>
-        <button
-          onClick={() => this.props.selectTime((slot.format('h:mm A')))}
-        >{slot.format('h:mm A')} </button></li>
-    })
-
-
+    let startTime = moment(start, 'HH:mm:ss').format('h:mm a')
     return (
       <div
-        className='availMulti'>
-        {/* {dateFormat} {start} {end}  */}
-        {/* {dateFormat} */}
-        {slotsToDisplay}
+      className='availMulti'>
 
-        {/* {this.props.selectedTime} */}
+      {
+        this.props.user.admin === true ?
+        <li>{startTime}</li>
+        :
+        <button onClick={()=>this.props.selectTime(startTime)}>{startTime}</button>
 
-
+      }
       </div>
     )
   }
 }
 
+const mapStateToProps = reduxState => reduxState
 
 
-export default connect(null, { selectTime })(Avail)
+export default connect(mapStateToProps, { selectTime })(Avail)
