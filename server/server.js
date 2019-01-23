@@ -76,7 +76,7 @@ app.put('/api/appt/:appt_id', schedCtrl.editComment)
 
 app.delete('/api/appt/:appt_id', schedCtrl.deleteAppt)
 
-app.put('/api/appt/:user_id', schedCtrl.updateAvailability)
+app.put('/api/appts', schedCtrl.updateAvailability)
 
 
 

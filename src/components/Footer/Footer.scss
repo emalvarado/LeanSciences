@@ -1,0 +1,38 @@
+$footer-end-margin: 5%;
+
+.footer {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 20px 0;
+
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footerIcons {
+  font-size: 2rem;
+  margin-left: $footer-end-margin;
+}
+
+.footerIcons {
+  a {
+    padding: .25em;
+  }
+}
+
+.footerContact {
+  display: flex;
+  justify-content: space-between;
+  margin-right: $footer-end-margin;
+}
+
+.footerContact {
+  div {
+    padding: 0 1em;
+  }
+}

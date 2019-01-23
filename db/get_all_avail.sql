@@ -3,4 +3,4 @@
 
 select a.id, appt_date, appt_start, a.user_id from appointment a
 where user_id = 5
-
+order by appt_date asc, appt_start asc

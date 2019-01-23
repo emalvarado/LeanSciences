@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import moment from 'moment'
-import './Avail.css'
+import './Avail.scss'
 import { connect } from 'react-redux'
 import { selectTime } from '../../../ducks/reducer'
 import { link } from 'fs';

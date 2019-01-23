@@ -1,10 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { selectTime } from '../../ducks/reducer'
 // import { userInfo } from 'os';
 import Appointment from './Appointment/Appointment'
-import './Schedule.css'
+import './Schedule.scss'
 import { Link } from 'react-router-dom'
 import moment from 'moment'
 import Avail from './Availability/Avail'
@@ -13,8 +12,8 @@ import 'react-day-picker/lib/style.css'
 import Swal from 'sweetalert2'
 import StripeCheckout from "react-stripe-checkout";
 import Checkout from '../stripe/Checkout';
-import {getUserData} from '../../ducks/reducer'
-
+import { getUserData, setPaid, selectTime } from '../../ducks/reducer'
+import paidIcon from '../../images/paid_1010814.png'
 
 
 
@@ -29,10 +28,10 @@ class Schedule extends Component {
       disabledDays: [],
       duration: 0,
       pricePerHour: 60,
-      paid: false,
       showApptCreator: false,
       start: '',
-      end: ''
+      end: '',
+      comment: ''
 
     }
   }
@@ -43,23 +42,23 @@ class Schedule extends Component {
 
   componentDidUpdate(prevProps) {
     // console.log(prevProps.user.id, this.props.user.id)
-    if(prevProps.user.id !== this.props.user.id) {
-        this.multiDoer()
-      }
+    if (prevProps.user.id !== this.props.user.id) {
+      this.multiDoer()
+    }
   }
 
 
 
   multiDoer() {
-        const { user } = this.props
-        if (user.admin === true) {
-          this.getAllClientAppts()
-          this.getAvailability()
-        }
-        if (user.id && !user.admin) {
-          this.getAvailability()
-          this.getSingleClientAppts()
-        }
+    const { user } = this.props
+    if (user.admin === true) {
+      this.getAllClientAppts()
+      this.getAvailability()
+    }
+    if (user.id && !user.admin) {
+      this.getAvailability()
+      this.getSingleClientAppts()
+    }
   }
 
   getAllClientAppts = async () => {
@@ -100,6 +99,7 @@ class Schedule extends Component {
     }
     this.setState({ selectedDay: day });
     this.props.selectTime()
+    this.props.setPaid()
 
   }
 
@@ -116,26 +116,48 @@ class Schedule extends Component {
   }
 
   createAppt = async () => {
-    const { selectedDay: date, duration, pricePerHour, paid } = this.state
-    const { selectedTime: start, user } = this.props
-    const startTime = moment(start, 'h:mm a').subtract(30, 'm')
-    const endTime = startTime.add(duration, 'm')
-    const end = endTime.format('h:mm a')
+    const { selectedDay: date, duration, pricePerHour, comment } = this.state
+    const { selectedTime: start, user, paid } = this.props
+    let startTime = moment(start, 'h:mm a')
+    const endTime = startTime.clone().add(duration, 'm')
+    const end = moment(start, 'h:mm a').add(duration, 'm').format('h:mm A')
     // console.log(duration)
     let price = (duration / 60) * pricePerHour
 
-    // let res = await axios.post('/api/appt', { date, start, end, price, paid, user_id: user.id })
-    while (endTime > startTime){
-      let slot = startTime.clone().add(30, 'm').format('h:mm A')
-      let res = await axios.put(`/api/appt/${user.id}`, {date, start: slot})
-      startTime.add(30, 'm')
+    // console.log(startTime, endTime, duration, formatDate)
+
+    while (endTime > startTime) {
+      let slot = startTime.format('h:mm A')
+      // console.log(slot, date)
+      let res = await axios.put(`/api/appts`, { date, start: slot })
+      startTime = startTime.clone().add(30, 'm')
     }
-    this.getSingleClientAppts()
+    let res = await axios.post('/api/appt', { date, start, end, price, paid, user_id: user.id, comment, paid })
+    this.setState({
+      comment: '',
+      selectedTime: '',
+    })
+    this.multiDoer()
     this.toggleApptCreator()
 
     // console.log(res.data)
 
   }
+
+  deleteAppt = async (id, date, start, end) => {
+    const { pricePerHour, paid } = this.state
+    let startTime = moment(start, 'h:mm a')
+    const endTime = moment(end, 'h:mm a')
+    while (endTime > startTime) {
+      let slot = startTime.format('h:mm A')
+      let res = await axios.post(`/api/appt`, { date, start: slot, user_id: 5 })
+      startTime = startTime.clone().add(30, 'm')
+    }
+    let res = await axios.delete(`/api/appt/${id}`)
+    this.multiDoer()
+  }
+
+
 
   addAvailability = async () => {
     const { start, end, selectedDay: date } = this.state
@@ -167,11 +189,7 @@ class Schedule extends Component {
     }
   }
 
-  deleteAppt = (id) => {
-    axios.delete(`/api/appt/${id}`).then(
-      this.getSingleClientAppts()
-    )
-  }
+
 
 
 
@@ -179,9 +197,11 @@ class Schedule extends Component {
 
 
   render() {
-    
+    // console.log(this.state.appts)
+
     const { appts, avail, selectedDay, duration, pricePerHour } = this.state
     let apptsToDisplay = appts.map((appt, i) => {
+
       return <Appointment key={i}
         date={appt.appt_date}
         id={appt.id}
@@ -220,12 +240,12 @@ class Schedule extends Component {
 
 
     return (
-      <div className={this.state.showApptCreator ? 'blur' : null}>
+      <div className='schedulePage'>
 
         {
           this.state.avail[0] && !this.props.user.admin ?
             <div>
-              <button onClick={this.toggleApptCreator}>Schedule an Appointment</button>
+              <button className='toggleBtn' onClick={this.toggleApptCreator}>Schedule an Appointment</button>
 
               <div className={this.state.showApptCreator ? 'apptCreatorBackground' : 'apptCreatorBackground hidden'} >
                 <div className='apptCreator'>
@@ -263,16 +283,23 @@ class Schedule extends Component {
                         <option value='120'>120 Minutes</option>
                       </select>
 
+                      <input type="text" onChange={e => { this.handleChange('comment', e.target.value) }} />
+                      {
+                        this.props.paid
+                          ?
+                          <img className='paidIcon' src={paidIcon} alt="paid" />
+                          :
+                          <Checkout
+                            amount={(duration / 60) * pricePerHour * 100}
+                          />
+                      }
 
-                      <Checkout
-                        amount={(duration / 60) * pricePerHour * 100}
-                      />
 
                       <button onClick={this.createAppt}>Schedule Session</button>
 
                     </div>
                   </div>
-                  <button onClick={this.toggleApptCreator}>Cancel</button>
+                  <button onClick={this.toggleApptCreator}>Finish</button>
                 </div>
 
 
@@ -285,9 +312,11 @@ class Schedule extends Component {
         }
 
 
+
+
         {this.state.appts[0] && this.props.user.admin === true ?
-          <div>
-            <button onClick={this.toggleApptCreator}>Add Availability</button>
+          <div className='adminSchedule'>
+            <button className='toggleBtn' onClick={this.toggleApptCreator}>Add Availability</button>
 
             <div className={this.state.showApptCreator ? 'apptCreatorBackground' : 'apptCreatorBackground hidden'} >
               <div className='apptCreator'>
@@ -328,29 +357,34 @@ class Schedule extends Component {
 
 
                 </div>
-                <button onClick={this.toggleApptCreator}>Cancel</button>
+                <button onClick={this.toggleApptCreator}>Finish</button>
               </div>
 
 
             </div>
 
 
-
+            <p>"You can have results or excuses</p>
+            <p>not both."</p>
+            <p>-Arnold Schwarzenegger</p>
             <h1>Schedule</h1>
-            <table>
-              <tr>
-                <th scope="col">Client Name</th>
-                <th scope="col">Date</th>
-                <th scope="col">Time</th>
-                <th scope="col">Duration (min)</th>
-                <th scope="col">Payment</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone Number</th>
-                <th scope="col">Comments</th>
-                <th scope="col" colspan="2">Select</th>
-              </tr>
-              {apptsToDisplay}
-            </table>
+            <div className='table'>
+              <table>
+                <tr>
+                  <th scope="col">Client Name</th>
+                  <th scope="col">Date</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">Duration (min)</th>
+                  <th scope="col">Payment</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Phone Number</th>
+                  <th scope="col">Comments</th>
+                  <th scope="col" colspan="2">Select</th>
+                </tr>
+                {apptsToDisplay}
+              </table>
+
+            </div>
             {/* <button>Delete Selection</button> */}
           </div>
           :
@@ -394,4 +428,4 @@ class Schedule extends Component {
 
 const mapStateToProps = reduxState => reduxState
 
-export default connect(mapStateToProps, { selectTime, getUserData })(Schedule)
+export default connect(mapStateToProps, { selectTime, getUserData, setPaid })(Schedule)

@@ -15,8 +15,8 @@ module.exports = {
 
   createAppt: async (req, res) => {
     const db = req.app.get('db')
-    const {date, start, end, price, paid, user_id, confirm} = req.body
-    const newAppt = await db.create_appt({date, start, end, price, paid, user_id, confirm})
+    const {date, start, end, price, paid, user_id, confirm, comment} = req.body
+    const newAppt = await db.create_appt({date, start, end, price, paid, user_id, confirm, comment})
     res.status(200).send(newAppt)
   },
 
@@ -43,9 +43,9 @@ module.exports = {
 
   updateAvailability: async (req, res) => {
     const db = req.app.get('db')
-    const {user_id} = req.params
     const {date, start} = req.body
-    const update = await db.update_avail({user_id, date, start})
+    // console.log(date, start)
+    const update = await db.update_avail({date, start})
     res.status(200).send(update)
   }
 }

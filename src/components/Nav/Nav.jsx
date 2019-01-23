@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './Nav.css'
+import './Nav.scss'
 import logo from '../../images/download.png'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'

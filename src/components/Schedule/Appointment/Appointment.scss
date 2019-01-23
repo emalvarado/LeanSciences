@@ -1,4 +1,4 @@
-td,
+
 th {
     border: 1px solid rgb(190, 190, 190);
     padding: 10px;
@@ -6,15 +6,18 @@ th {
 
 td {
     text-align: center;
+    padding: 10px;
 }
 
 tr:nth-child(even) {
-    background-color: #eee;
+    background-color: #bbbbbbba;
 }
 
 th[scope="col"] {
-    background-color: #696969;
-    color: #fff;
+    background-color: #ffffff3d;
+    color: #858585;
+    font-weight: bold;
+    border-bottom: 1px solid #a8a8a8;
 }
 
 th[scope="row"] {
@@ -31,4 +34,5 @@ table {
     letter-spacing: 1px;
     font-family: sans-serif;
     font-size: .8rem;
+    background-color: #ffffffc2;
 }
