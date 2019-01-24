@@ -11,8 +11,8 @@ function Home(props) {
   const insideStyles = {
     padding: 20,
     position: "absolute",
-    top: "50%",
-    left: "50%",
+    top: "40%",
+    left: "40%",
     transform: "translate(-50%,-50%)"
   };
   return (
@@ -20,9 +20,10 @@ function Home(props) {
 
     <Parallax
         blur={0}
-        bgImage='https://wallpaperplay.com/walls/full/3/3/f/140526.jpg'
-        bgImageAlt="the cat"
-        strength={2000}
+        bgImage={require('../../images/2830647-arnold-schwarzenegger-working-out___people-wallpapers.jpg')}
+        strength={700}
+        bgImageSizes='100px'
+
       >
       <div style={{ height: 500 }}>
         <div className='homeHeading' style={insideStyles}>
@@ -33,23 +34,30 @@ function Home(props) {
      
 
 
-      <div style={{ height: '200px' }}>
-        <h3>Science based training and nutrition designed to fit you</h3>
+      <div className='homeInfo' style={{ height: '400px' }}>
+        <h3>Science based training and nutrition designed to <span className='boldInline'> fit you</span></h3>
         <p>Exercise and dieting are integral portions of our daily lives, but we tend to prioritize everything and anything except caring for ourselves. Because no two people are the same, we have different goals, preferences, schedules, limitations, etc.; therefore a one-size-fits-all exercise and diet program is a quick fix at best. Lifestyle changes are what produce the long term results you need. I’m here to show you how to:</p>
         <ul>
-          <li>Stop exercising aimlessly and start training for your goals</li>
-          <li>Stop dieting endlessly and start fueling to live and perform</li>
-          <li>Stop riding an emotional rollercoaster and start enjoying a balanced life</li>
+          <li>Stop <span className='boldInline'>exercising aimlessly</span> and start <span className='boldInline'> training </span>for your goals</li>
+          <li>Stop <span className='boldInline'>dieting endlessly</span> and start <span className='boldInline'>fueling</span> to live and perform</li>
+          <li>Stop <span className='boldInline'>riding an emotional rollercoaster</span> and start <span className='boldInline'>enjoying a balanced life</span></li>
         </ul>
       </div>
 
-      <div style={{ height: '200px' }}>
+    <Parallax
+        blur={0}
+        bgImage={require('../../images/arnold_schwarzenegger_sports_bodybuilding_dumbbells_108090_1920x1080.jpg')}
+        strength={700}
+        bgImageSizes='100px'
 
+      >
+      <div style={{ height: 500 }}>
       </div>
+      </Parallax>
 
-      <div style={{ height: '200px' }}>
-        <h3>quoty mcquotequote??</h3>
-        <p>im broccoli a quote??</p>
+      <div className='homeQuote' style={{ height: '400px' }}>
+        <h3>“Strength does not come from the physical capacity. It comes from an indomitable will.”</h3>
+        <p> – Ghandi</p>
       </div>
 
 
