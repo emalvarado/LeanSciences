@@ -22,7 +22,7 @@ function Appointment(props) {
         <td>{email}</td>
         <td>{phone}</td>
         <td>{comment}</td>
-        <td> <button onClick={()=>props.deleteAppt(id, date, start, end)}>Delete</button></td>
+        <td> <button onClick={()=>props.deleteAppt(id, date, start, end)}>Cancel Session</button></td>
       </tr>
 
 
@@ -36,7 +36,7 @@ function Appointment(props) {
         <td>{paid ? 'Paid' : 'Payment needed'}</td>
         <td>{comment}</td>
         <td> <button onClick={()=>props.toggleEdit(id)}>Edit</button> </td>
-        <td> <button onClick={()=>props.deleteAppt(id, date, start, end)}>Delete</button></td>
+        <td> <button onClick={()=>props.deleteAppt(id, date, start, end)}>Cancel Session</button></td>
       </tr>
 
 

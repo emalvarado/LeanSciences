@@ -1,17 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Marck+Script');
+
+$main-font: 'Fjalla One', sans-serif;
+
+
 .schedulePage {
     background-image: url('../../images/150416b.jpg');
     background-size: cover;
     background-position: center;
+    height: 100vh;
+    color: #e1e1e1;
+    width: 100vw;
+    h3 {
+        margin: 0;
+        padding-top: 1rem;
+    }
 }
+
+.visibleDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 9% 1%;
+    padding-top: 4%;
+    // margin: 0% 10%;
+    box-sizing: border-box;
+}
+
 
 .inlineLink {
     color: rgb(95, 156, 158);
 }
 
 .timesBox {
-    height: 200px;
+    height: 90%;
     overflow: scroll;
     padding: 0 13px;
+    width: 100px;
+    border: 1px solid #cfcfcf;
+    box-sizing: border-box;
+    label {
+        font-size: .7rem;
+    }
 }
 
 .apptCreatorBackground {
@@ -25,6 +55,7 @@
     display: flex;
     justify-content: center;
     padding-top: 10%;
+    color: #000000;
 
 }
 
@@ -46,13 +77,34 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    height: 281px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.durationSelection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    padding: 2% 1%;
+    box-sizing: border-box;
+    textarea {
+        font-size: 10px;
+        height: 100px;
+        width: 260px;
+    }
 }
 
 .timeSelection {
-    display: flex;
     flex-direction: column;
     text-align: start;
-
+    box-sizing: border-box;
+    padding: 0 4%;
+    div {
+        margin: 1% 0;
+    }
 }
 
 .addBtn {
@@ -64,28 +116,28 @@
 }
 
 .table {
- display: flex;   
- justify-content: center;
-}
-
-.adminSchedule {
-    button {
-        box-shadow:inset 0 -0.6em 1em -0.35em rgba(0,0,0,0.17),inset 0 0.6em 2em -0.3em rgba(255,255,255,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
-    }
-}
-
-.schedulePage {
-    height: 100vh;
+    width: fit-content;
+    margin: auto;
+    overflow: scroll;
+    box-shadow: 0px 0px 43px #bababa;
+    max-height: 300px;
 }
 
 .toggleBtn {
     border-radius: 10px;
-    padding: 2rem 5rem;
+    padding: 1.25rem 3rem;
     margin: 1rem;
     background-color: #747474;
     color: #ffffff;
     font-weight: 700;
     font-size: 1.25rem;
+    box-shadow:inset 0 -0.6em 1em -0.35em rgba(0,0,0,0.17),inset 0 0.6em 2em -0.3em rgba(255,255,255,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
+
+}
+
+.toggleBtnDiv {
+    display: flex;
+
 }
 
 button:hover {
@@ -93,8 +145,43 @@ button:hover {
     box-shadow: none;
 }
 
-.adminSchedule {
+.scheduleQuote {
+    width: 80%;
+    margin: auto;
     p, h1 {
         color: white;
     }
+    p {
+        font-family: $main-font;
+        font-size: 3rem;
+    }
+    p:nth-of-type(-n+2) {
+        text-transform: uppercase;
+        color: red;
+    }
+
+    p:first-of-type {
+        margin-bottom: 6%;
+    }
+
+    p:last-of-type {
+        font-size: 1.75rem;
+        font-family: 'Marck Script', cursive;
+        margin: 1%;
+    }
+
+}
+
+.schedule {
+    h1 {
+        margin-bottom: 2%;
+    }
+}
+
+.noUserInfo {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding-top: 4%;
 }
