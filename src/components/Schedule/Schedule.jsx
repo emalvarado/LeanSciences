@@ -15,7 +15,6 @@ import { getUserData, setPaid, selectTime } from '../../ducks/reducer'
 import paidIcon from '../../images/paid_1010814.png'
 
 
-
 class Schedule extends Component {
   constructor(props) {
     super(props)
