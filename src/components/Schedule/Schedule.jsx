@@ -10,7 +10,6 @@ import Avail from './Availability/Avail'
 import DayPicker from 'react-day-picker'
 import 'react-day-picker/lib/style.css'
 import Swal from 'sweetalert2'
-import StripeCheckout from "react-stripe-checkout";
 import Checkout from '../stripe/Checkout';
 import { getUserData, setPaid, selectTime } from '../../ducks/reducer'
 import paidIcon from '../../images/paid_1010814.png'

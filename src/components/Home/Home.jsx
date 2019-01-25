@@ -22,8 +22,6 @@ function Home(props) {
         blur={0}
         bgImage={require('../../images/2830647-arnold-schwarzenegger-working-out___people-wallpapers.jpg')}
         strength={700}
-        bgImageSizes='100px'
-
       >
       <div style={{ height: 500 }}>
         <div className='homeHeading' style={insideStyles}>
@@ -48,8 +46,6 @@ function Home(props) {
         blur={0}
         bgImage={require('../../images/arnold_schwarzenegger_sports_bodybuilding_dumbbells_108090_1920x1080.jpg')}
         strength={700}
-        bgImageSizes='100px'
-
       >
       <div style={{ height: 500 }}>
       </div>

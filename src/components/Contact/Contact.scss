@@ -1,0 +1,77 @@
+.contactPage {
+  min-height: 100vh;
+  padding-top: 55px;
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 10%;
+  h1, h3 {
+    font-family: "Fjalla One", sans-serif;
+    font-weight: 100;
+
+  }
+}
+
+.contactDiv {
+  width: 50vw;
+  align-items: flex-start;
+  text-align: left;
+  padding: 0 10%;
+p {
+  font-size: 2rem;
+  font-size: 1.1rem;
+}
+h1 {
+  font-size: 3.5rem;
+  text-align: left;
+}
+}
+
+.contactInputs {
+  display: flex;
+  flex-direction: column;
+  height: 50%;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  box-sizing: border-box;
+  div {
+    width: 100%
+  }
+  input, textarea {
+    width: 260px;
+    font-size: .8rem;
+  }
+  textarea {
+    height: 100px;
+  }
+  button {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 3px 3px 5px #aaaaaa;
+    transition: .5s;
+  }
+
+  button:hover {
+    // background-color: #4a4a4a;
+    box-shadow: none;
+  }
+}
+
+.mapDiv {
+  text-align: left;
+  width: 50%;
+  margin-top: 18px;
+  h3 {
+    font-size: 2rem;
+  }
+  h4{
+    font-weight: 200;
+    font-size: 1.5rem;
+  }
+  p{
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+}
