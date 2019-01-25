@@ -228,6 +228,7 @@ class Schedule extends Component {
       let formatAvail = moment(slot.appt_date).format('L')
       console.log('formatSelected, formatAvail',formatSelected, formatAvail)
       if (formatSelected === formatAvail) {
+        console.log('formatSelected, formatAvail, and slot',formatSelected, formatAvail, slot)
         return <Avail key={i}
           id={slot.id}
           date={slot.appt_date}
