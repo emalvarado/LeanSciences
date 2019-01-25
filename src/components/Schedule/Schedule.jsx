@@ -127,7 +127,7 @@ class Schedule extends Component {
 
     while (endTime > startTime) {
       let slot = startTime.format('h:mm A')
-      console.log('slot and date from createAppt',slot, date)
+      console.log('slot and date from createAppt', slot, date)
       let res = await axios.put(`/api/appts`, { date, start: slot })
       startTime = startTime.clone().add(30, 'm')
     }
@@ -165,7 +165,7 @@ class Schedule extends Component {
     let endTime = moment(end, 'h:mm a').subtract(1, 'h')
     let initialTime = moment(start, 'h:mm a')
     let avail = [initialTime]
-    console.log('date from addAvail',date)
+    console.log('date from addAvail', date)
     while (endTime > startTime) {
       let slot = startTime.clone().add(30, 'm').format('h:mm A')
       let res = await axios.post('/api/appt', { date, start: slot, user_id: this.props.user.id })
@@ -218,30 +218,31 @@ class Schedule extends Component {
         admin={this.props.user.admin}
         comment={appt.comment}
         toggleEdit={this.toggleEdit}
-        deleteAppt={this.deleteAppt} 
-        />
+        deleteAppt={this.deleteAppt}
+      />
     })
 
-    let availToDisplayFiler = avail.filter((slot, i) => {
+    // let availToDisplayFiler = avail.filter((slot, i) => {
 
-      const a = moment(selectedDay).format('L')
-      const b =  moment(slot.appt_date).format('L')
-      console.log('selected day:', a)
-      console.log('appt_date:', b)
-      console.log(a===b)
-      return a === b
-    })
-      // console.log('selectedDay:', moment(selectedDay).format('L'), 'avail:', moment(slot.appt_date).format('L'))
-      console.log(availToDisplayFiler)
-    let availToDisplay = availToDisplayFiler.map((slot, i) => {
-      return <Avail key={i}
-        id={slot.id}
-        date={slot.appt_date}
-        start={slot.appt_start}
-        userId={slot.user_id}
-        selectedDay={selectedDay} />
-    })
-      
+    //   const a = moment(selectedDay).format('L')
+    //   const b =  moment(slot.appt_date).format('L')
+    //   console.log('slot.appt_date',slot.appt_date)
+    //   console.log('selected day:', a)
+    //   console.log('appt_date:', b)
+    //   console.log(a===b)
+    //   return a === b
+    // })
+    //   // console.log('selectedDay:', moment(selectedDay).format('L'), 'avail:', moment(slot.appt_date).format('L'))
+    //   console.log(availToDisplayFiler)
+    // let availToDisplay = availToDisplayFiler.map((slot, i) => {
+    //   return <Avail key={i}
+    //     id={slot.id}
+    //     date={slot.appt_date}
+    //     start={slot.appt_start}
+    //     userId={slot.user_id}
+    //     selectedDay={selectedDay} />
+    // })
+
 
 
     return (
@@ -273,10 +274,8 @@ class Schedule extends Component {
                         )}
                     </div>
 
-                    <ul className='timesBox'>
-                      <label>Available Times:</label>
-                      {availToDisplay}
-                    </ul>
+                    <Avail
+                    selectedDay={this.state.selectedDay} />
 
                     {
                       !this.props.user.admin
@@ -330,12 +329,12 @@ class Schedule extends Component {
                         <div className='timeSelection'>
                           <div>
                             <label>Start time:</label>
-                            <br/>
+                            <br />
                             <input onChange={e => this.handleChange('start', e.target.value)} type="text" placeholder='h:mm am' />
                           </div>
                           <div>
                             <label>End time:</label>
-                            <br/>
+                            <br />
                             <input onChange={e => this.handleChange('end', e.target.value)} type="text" placeholder='h:mm am' />
                           </div>
                           <button className='addBtn' onClick={this.addAvailability}>Add Availability</button>

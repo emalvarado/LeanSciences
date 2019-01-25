@@ -75,7 +75,7 @@ app.get('/api/user', (req, res) => {
 
 app.get('/api/appts', schedCtrl.getAllClientAppts)
 
-app.get('/api/avail', schedCtrl.getAvailability)
+app.get('/api/avail/:date', schedCtrl.getAvailability)
 
 app.get('/api/appts/:user_id', schedCtrl.getSingleClientAppt)
 
