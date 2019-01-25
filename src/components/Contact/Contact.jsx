@@ -25,6 +25,12 @@ class Contact extends Component {
   handleSubmit = async () => {
     const { name, email, phone, message } = this.state
     let res = await axios.post('/send', { name, email, phone, message })
+    this.setState({
+      name: '',
+      email: '',
+      phone: '',
+      message: ''
+    })
     Swal.fire(res.data.message)
   }
 

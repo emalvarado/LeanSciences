@@ -6,7 +6,7 @@ const authCtrl = require('./controllers/auth_controller')
 const schedCtrl = require('./controllers/sched_controller')
 const nodemailer = require("nodemailer")
 const credentials = require('../credentials')
-const path = require('path')
+// const path = require('path')
 
 
 
@@ -46,9 +46,9 @@ massive(CONNECTION_STRING).then(db => {
 })
 
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build/index.html'))
-})
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../build/index.html'))
+// })
 
 //auth
 
