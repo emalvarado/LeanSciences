@@ -91,14 +91,16 @@ class Schedule extends Component {
     if (selected) {
       // Unselect the day if already selected
       this.setState({
-        selectedDay: undefined,
+        selectedDay: null,
       })
       this.props.selectTime()
       return;
     }
-    this.setState({ selectedDay: day });
-    this.props.selectTime()
-    this.props.setPaid()
+    console.log('day', day)
+    this.setState({ selectedDay: day }, () => {
+      this.props.selectTime()
+      this.props.setPaid()
+    });
 
   }
 
