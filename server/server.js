@@ -6,6 +6,7 @@ const authCtrl = require('./controllers/auth_controller')
 const schedCtrl = require('./controllers/sched_controller')
 const nodemailer = require("nodemailer")
 const credentials = require('../credentials')
+const path = require('path')
 
 
 
@@ -20,6 +21,8 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+
+app.use( express.static( `${__dirname}/../build` ) );
 
 // app.use(async (req, res, next) => {
 //   // console.log(ENVIRONMENT)
@@ -43,7 +46,9 @@ massive(CONNECTION_STRING).then(db => {
 })
 
 
-
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build/index.html'))
+})
 
 //auth
 
