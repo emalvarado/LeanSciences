@@ -69,6 +69,7 @@ class Schedule extends Component {
 
   getAvailability = async () => {
     const res = await axios.get('/api/avail')
+    console.log('res.data from getAvail',res.data)
     this.setState({
       avail: res.data
     })
@@ -126,7 +127,7 @@ class Schedule extends Component {
 
     while (endTime > startTime) {
       let slot = startTime.format('h:mm A')
-      // console.log(slot, date)
+      console.log('slot and date from createAppt',slot, date)
       let res = await axios.put(`/api/appts`, { date, start: slot })
       startTime = startTime.clone().add(30, 'm')
     }
@@ -164,6 +165,7 @@ class Schedule extends Component {
     let endTime = moment(end, 'h:mm a').subtract(1, 'h')
     let initialTime = moment(start, 'h:mm a')
     let avail = [initialTime]
+    console.log('date from addAvail',date)
     while (endTime > startTime) {
       let slot = startTime.clone().add(30, 'm').format('h:mm A')
       let res = await axios.post('/api/appt', { date, start: slot, user_id: this.props.user.id })
@@ -196,8 +198,7 @@ class Schedule extends Component {
 
 
   render() {
-    // console.log(this.state.appts)
-
+    console.log('state.appts',this.state.appts)
     const { appts, avail, selectedDay, duration, pricePerHour } = this.state
     let apptsToDisplay = appts.map((appt, i) => {
 
@@ -225,6 +226,7 @@ class Schedule extends Component {
       // console.log('selectedDay:', moment(selectedDay).format('L'), 'avail:', moment(slot.appt_date).format('L'))
       let formatSelected = moment(selectedDay).format('L');
       let formatAvail = moment(slot.appt_date).format('L')
+      console.log('formatSelected, formatAvail',formatSelected, formatAvail)
       if (formatSelected === formatAvail) {
         return <Avail key={i}
           id={slot.id}
