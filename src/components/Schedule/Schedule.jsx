@@ -69,7 +69,6 @@ class Schedule extends Component {
 
   getAvailability = async () => {
     const res = await axios.get('/api/avail')
-    console.log('res.data from getAvail',res.data)
     this.setState({
       avail: res.data
     })
@@ -96,7 +95,6 @@ class Schedule extends Component {
       this.props.selectTime()
       return;
     }
-    console.log('day', day)
     this.setState({ selectedDay: day }, () => {
       this.props.selectTime()
       this.props.setPaid()
@@ -200,7 +198,6 @@ class Schedule extends Component {
 
 
   render() {
-    console.log('state.appts',this.state.appts)
     const { appts, avail, selectedDay, duration, pricePerHour } = this.state
     let apptsToDisplay = appts.map((appt, i) => {
 
@@ -221,26 +218,30 @@ class Schedule extends Component {
         admin={this.props.user.admin}
         comment={appt.comment}
         toggleEdit={this.toggleEdit}
-        deleteAppt={this.deleteAppt} />
+        deleteAppt={this.deleteAppt} 
+        />
     })
 
-    let availToDisplay = avail.map((slot, i) => {
+    let availToDisplayFiler = avail.filter((slot, i) => {
+
+      const a = moment(selectedDay).format('L')
+      const b =  moment(slot.appt_date).format('L')
+      console.log('selected day:', a)
+      console.log('appt_date:', b)
+      console.log(a===b)
+      return a === b
+    })
       // console.log('selectedDay:', moment(selectedDay).format('L'), 'avail:', moment(slot.appt_date).format('L'))
-      let formatSelected = moment(selectedDay).format('L');
-      let formatAvail = moment(slot.appt_date).format('L')
-      console.log('formatSelected, formatAvail',formatSelected, formatAvail)
-      if (formatSelected === formatAvail) {
-        console.log('formatSelected, formatAvail, and slot',formatSelected, formatAvail, slot)
-        return <Avail key={i}
-          id={slot.id}
-          date={slot.appt_date}
-          start={slot.appt_start}
-          userId={slot.user_id}
-          selectedDay={selectedDay} />
-      }
+      console.log(availToDisplayFiler)
+    let availToDisplay = availToDisplayFiler.map((slot, i) => {
+      return <Avail key={i}
+        id={slot.id}
+        date={slot.appt_date}
+        start={slot.appt_start}
+        userId={slot.user_id}
+        selectedDay={selectedDay} />
     })
-
-
+      
 
 
     return (
