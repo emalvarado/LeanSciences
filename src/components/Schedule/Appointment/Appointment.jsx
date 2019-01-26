@@ -5,8 +5,8 @@ import moment from 'moment'
 
 function Appointment(props) {
   const { id, first, last, date, start, end, paid, email, phone, comment } = props
-  const endTime = moment(end, 'hh:mm a')
-  const startTime = moment(start, 'hh:mm a')
+  const endTime = moment(end, 'H:mm:ss')
+  const startTime = moment(start, 'H:mm:ss')
   const duration = moment.duration(endTime.diff(startTime)).as('m')
   const formattedDate = moment(date).format('L')
   const formattedStart = startTime.format('h:mm a')
