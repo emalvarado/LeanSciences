@@ -14,6 +14,11 @@ import Checkout from '../stripe/Checkout';
 import { getUserData, setPaid, selectTime } from '../../ducks/reducer'
 import paidIcon from '../../images/paid_1010814.png'
 
+import {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment';
+
 
 class Schedule extends Component {
   constructor(props) {
@@ -83,6 +88,7 @@ class Schedule extends Component {
   }
 
   handleDayClick = (day, { selected, disabled }) => {
+    console.log(day instanceof Date)
     if (disabled) {
       // Day is disabled, do nothing
       return;
@@ -263,6 +269,8 @@ class Schedule extends Component {
                   <div className='apptContainers'>
                     <div className='calender'>
                       <DayPicker
+                       formatDate={formatDate}
+                       parseDate={parseDate}
                         onDayClick={this.handleDayClick}
                         selectedDays={this.state.selectedDay}
                         disabledDays={this.state.disabledDays}

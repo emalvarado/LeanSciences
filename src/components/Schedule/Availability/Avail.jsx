@@ -32,7 +32,7 @@ componentDidUpdate(prevProps) {
   getAvailability = async () => {
     let formatDate = moment(this.props.selectedDay).format('M-D-YYYY')
     let date = encodeURI(formatDate)
-    console.log(date)
+    // console.log(date)
     let res = await axios.get(`/api/avail/${date}`)
     this.setState({
       avail: res.data
@@ -42,6 +42,7 @@ componentDidUpdate(prevProps) {
 
   render() {
     const {avail} = this.state
+    console.log(this.state)
     let availToDisplay = avail.map((slot, i) => {
       const startTime = moment(slot.appt_start, 'H:mm:ss').format('h:mm a')
       if (!this.props.user.admin) {

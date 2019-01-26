@@ -11,7 +11,7 @@ module.exports = {
     const db = req.app.get('db')
     let {date} = req.params
     date = decodeURI(date)
-    console.log(date)
+    // console.log(date)
     const avail = await db.get_day_avail({date})
     res.status(200).send(avail)
   },
