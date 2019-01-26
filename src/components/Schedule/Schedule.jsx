@@ -13,6 +13,13 @@ import Swal from 'sweetalert2'
 import Checkout from '../stripe/Checkout';
 import { getUserData, setPaid, selectTime } from '../../ducks/reducer'
 import paidIcon from '../../images/paid_1010814.png'
+import io from "socket.io-client";
+
+
+import {
+  formatDate,
+  parseDate,
+} from 'react-day-picker/moment';
 
 
 class Schedule extends Component {
@@ -32,6 +39,10 @@ class Schedule extends Component {
       comment: ''
 
     }
+    this.socket = io.connect({secure: true});
+    this.socket.on("recieved", data =>
+    this.multiDoer()
+  );
   }
 
   componentDidMount() {
@@ -54,8 +65,8 @@ class Schedule extends Component {
       this.getAvailability()
     }
     if (user.id && !user.admin) {
-      this.getAvailability()
       this.getSingleClientAppts()
+      this.getAvailability()
     }
   }
 
@@ -67,12 +78,7 @@ class Schedule extends Component {
     })
   }
 
-  getAvailability = async () => {
-    const res = await axios.get('/api/avail')
-    this.setState({
-      avail: res.data
-    })
-  }
+
 
   getSingleClientAppts = async () => {
     const { user } = this.props
@@ -127,7 +133,7 @@ class Schedule extends Component {
 
     while (endTime > startTime) {
       let slot = startTime.format('h:mm A')
-      console.log('slot and date from createAppt',slot, date)
+      console.log('slot and date from createAppt', slot, date)
       let res = await axios.put(`/api/appts`, { date, start: slot })
       startTime = startTime.clone().add(30, 'm')
     }
@@ -139,6 +145,10 @@ class Schedule extends Component {
     this.multiDoer()
     this.toggleApptCreator()
     this.props.setPaid()
+    this.socket.emit('blast', {
+      avail: this.state.avail,
+      appts: this.state.appts
+    })
 
     // console.log(res.data)
 
@@ -155,6 +165,19 @@ class Schedule extends Component {
     }
     let res = await axios.delete(`/api/appt/${id}`)
     this.multiDoer()
+    this.socket.emit('blast', {
+      avail: this.state.avail,
+      appts: this.state.appts
+    })
+  }
+
+  getAvailability = async () => {
+    let formatDate = moment(this.state.selectedDay).format('M-D-YYYY')
+    let date = encodeURI(formatDate)
+    let res = await axios.get(`/api/avail/${date}`)
+    this.setState({
+      avail: res.data
+    })
   }
 
 
@@ -164,15 +187,17 @@ class Schedule extends Component {
     let startTime = moment(start, 'h:mm a').subtract(30, 'm')
     let endTime = moment(end, 'h:mm a').subtract(1, 'h')
     let initialTime = moment(start, 'h:mm a')
-    let avail = [initialTime]
-    console.log('date from addAvail',date)
+    // let avail = [initialTime]
     while (endTime > startTime) {
       let slot = startTime.clone().add(30, 'm').format('h:mm A')
       let res = await axios.post('/api/appt', { date, start: slot, user_id: this.props.user.id })
       startTime.add(30, 'm')
     }
-    this.getAvailability()
-    // this.toggleApptCreator()
+   this.getAvailability()
+   this.socket.emit('blast', {
+    avail: this.state.avail,
+    appts: this.state.appts
+  })
   }
 
   toggleEdit = async (id) => {
@@ -198,7 +223,7 @@ class Schedule extends Component {
 
 
   render() {
-    const { appts, avail, selectedDay, duration, pricePerHour } = this.state
+    const { appts, selectedDay, duration, pricePerHour } = this.state
     let apptsToDisplay = appts.map((appt, i) => {
 
       return <Appointment key={i}
@@ -218,30 +243,12 @@ class Schedule extends Component {
         admin={this.props.user.admin}
         comment={appt.comment}
         toggleEdit={this.toggleEdit}
-        deleteAppt={this.deleteAppt} 
-        />
+        deleteAppt={this.deleteAppt}
+      />
     })
 
-    let availToDisplayFiler = avail.filter((slot, i) => {
 
-      const a = moment(selectedDay).format('L')
-      const b =  moment(slot.appt_date).format('L')
-      console.log('selected day:', a)
-      console.log('appt_date:', b)
-      console.log(a===b)
-      return a === b
-    })
-      // console.log('selectedDay:', moment(selectedDay).format('L'), 'avail:', moment(slot.appt_date).format('L'))
-      console.log(availToDisplayFiler)
-    let availToDisplay = availToDisplayFiler.map((slot, i) => {
-      return <Avail key={i}
-        id={slot.id}
-        date={slot.appt_date}
-        start={slot.appt_start}
-        userId={slot.user_id}
-        selectedDay={selectedDay} />
-    })
-      
+
 
 
     return (
@@ -262,6 +269,8 @@ class Schedule extends Component {
                   <div className='apptContainers'>
                     <div className='calender'>
                       <DayPicker
+                       formatDate={formatDate}
+                       parseDate={parseDate}
                         onDayClick={this.handleDayClick}
                         selectedDays={this.state.selectedDay}
                         disabledDays={this.state.disabledDays}
@@ -273,10 +282,10 @@ class Schedule extends Component {
                         )}
                     </div>
 
-                    <ul className='timesBox'>
-                      <label>Available Times:</label>
-                      {availToDisplay}
-                    </ul>
+                    <Avail
+                    selectedDay={this.state.selectedDay}
+                    avail={this.state.avail}
+                    getAvailability={this.getAvailability} />
 
                     {
                       !this.props.user.admin
@@ -330,12 +339,12 @@ class Schedule extends Component {
                         <div className='timeSelection'>
                           <div>
                             <label>Start time:</label>
-                            <br/>
+                            <br />
                             <input onChange={e => this.handleChange('start', e.target.value)} type="text" placeholder='h:mm am' />
                           </div>
                           <div>
                             <label>End time:</label>
-                            <br/>
+                            <br />
                             <input onChange={e => this.handleChange('end', e.target.value)} type="text" placeholder='h:mm am' />
                           </div>
                           <button className='addBtn' onClick={this.addAvailability}>Add Availability</button>

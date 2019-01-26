@@ -6,7 +6,7 @@ const authCtrl = require('./controllers/auth_controller')
 const schedCtrl = require('./controllers/sched_controller')
 const nodemailer = require("nodemailer")
 const credentials = require('../credentials')
-// const path = require('path')
+const socket = require('socket.io')
 
 
 
@@ -40,11 +40,13 @@ app.use( express.static( `${__dirname}/../build` ) );
 
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db)
-  app.listen(SERVER_PORT, () => {
-    console.log(`Listening on port ${SERVER_PORT}`)
-  })
+  console.log('connected to db')
 })
 
+
+const io = socket(  app.listen(SERVER_PORT, () => {
+  console.log(`Listening on port ${SERVER_PORT}`)
+}))
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../build/index.html'))
@@ -75,7 +77,7 @@ app.get('/api/user', (req, res) => {
 
 app.get('/api/appts', schedCtrl.getAllClientAppts)
 
-app.get('/api/avail', schedCtrl.getAvailability)
+app.get('/api/avail/:date', schedCtrl.getAvailability)
 
 app.get('/api/appts/:user_id', schedCtrl.getSingleClientAppt)
 
@@ -156,3 +158,14 @@ app.post('/send', async (req, res) => {
   // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
   res.status(200).send({message: 'Email has been sent'})
 })
+
+
+
+//sockets
+io.on('connection', (socket)=> {
+  console.log('socket connected')
+  socket.on('blast', data => {
+    io.sockets.emit('recieved', data)
+  })
+})
+

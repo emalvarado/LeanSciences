@@ -9,7 +9,10 @@ module.exports = {
 
   getAvailability: async (req, res) => {
     const db = req.app.get('db')
-    const avail = await db.get_all_avail()
+    let {date} = req.params
+    date = decodeURI(date)
+    // console.log(date)
+    const avail = await db.get_day_avail({date})
     res.status(200).send(avail)
   },
 
