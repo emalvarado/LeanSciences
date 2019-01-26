@@ -52,6 +52,9 @@ const io = socket(  app.listen(SERVER_PORT, () => {
 //   res.sendFile(path.join(__dirname, '../build/index.html'))
 // })
 
+
+
+
 //auth
 
 app.post('/auth/register', authCtrl.register)
@@ -79,7 +82,7 @@ app.get('/api/appts', schedCtrl.getAllClientAppts)
 
 app.get('/api/avail/:date', schedCtrl.getAvailability)
 
-app.get('/api/appts/:user_id', schedCtrl.getSingleClientAppt)
+app.get('/api/myAppts/:user_id', schedCtrl.getSingleClientAppt)
 
 app.post('/api/appt', schedCtrl.createAppt)
 

@@ -44,11 +44,11 @@ componentDidUpdate(prevProps, prevState) {
       const startTime = moment(slot.appt_start, 'H:mm:ss').format('h:mm a')
       if (!this.props.user.admin) {
         return (
-          <button onClick={() => this.props.selectTime(startTime)}>{startTime}</button>
+          <button key={i} onClick={() => this.props.selectTime(startTime)}>{startTime}</button>
         )
       } else {
         return (
-          <li>{startTime}</li>
+          <li key={i} >{startTime}</li>
         )
       }
     })

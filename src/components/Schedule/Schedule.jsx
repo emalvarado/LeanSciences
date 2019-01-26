@@ -39,10 +39,10 @@ class Schedule extends Component {
       comment: ''
 
     }
-    this.socket = io.connect({secure: true});
+    this.socket = io.connect({ secure: true });
     this.socket.on("recieved", data =>
-    this.multiDoer()
-  );
+      this.multiDoer()
+    );
   }
 
   componentDidMount() {
@@ -82,7 +82,7 @@ class Schedule extends Component {
 
   getSingleClientAppts = async () => {
     const { user } = this.props
-    const res = await axios.get(`/api/appts/${user.id}`)
+    const res = await axios.get(`/api/myAppts/${user.id}`)
     this.setState({
       appts: res.data
     })
@@ -142,7 +142,7 @@ class Schedule extends Component {
       comment: '',
       selectedTime: '',
     })
-    this.multiDoer()
+    await this.multiDoer()
     this.toggleApptCreator()
     this.props.setPaid()
     this.socket.emit('blast', {
@@ -193,11 +193,11 @@ class Schedule extends Component {
       let res = await axios.post('/api/appt', { date, start: slot, user_id: this.props.user.id })
       startTime.add(30, 'm')
     }
-   this.getAvailability()
-   this.socket.emit('blast', {
-    avail: this.state.avail,
-    appts: this.state.appts
-  })
+    this.getAvailability()
+    this.socket.emit('blast', {
+      avail: this.state.avail,
+      appts: this.state.appts
+    })
   }
 
   toggleEdit = async (id) => {
@@ -269,8 +269,8 @@ class Schedule extends Component {
                   <div className='apptContainers'>
                     <div className='calender'>
                       <DayPicker
-                       formatDate={formatDate}
-                       parseDate={parseDate}
+                        formatDate={formatDate}
+                        parseDate={parseDate}
                         onDayClick={this.handleDayClick}
                         selectedDays={this.state.selectedDay}
                         disabledDays={this.state.disabledDays}
@@ -283,9 +283,9 @@ class Schedule extends Component {
                     </div>
 
                     <Avail
-                    selectedDay={this.state.selectedDay}
-                    avail={this.state.avail}
-                    getAvailability={this.getAvailability} />
+                      selectedDay={this.state.selectedDay}
+                      avail={this.state.avail}
+                      getAvailability={this.getAvailability} />
 
                     {
                       !this.props.user.admin
@@ -355,11 +355,18 @@ class Schedule extends Component {
                 </div>
               </div>
 
+              {
+                !this.props.user.admin
+                ?
               <div className='scheduleQuote'>
                 <p>"You can have results or excuses</p>
                 <p>not both."</p>
                 <p>-Arnold Schwarzenegger</p>
               </div>
+              :
+              null
+              }
+
               {
                 this.state.appts[0]
                   //logged in user has upcoming appointments
