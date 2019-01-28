@@ -134,10 +134,10 @@ class Schedule extends Component {
     while (endTime > startTime) {
       let slot = startTime.format('h:mm A')
       console.log('slot and date from createAppt', slot, date)
-      let res = await axios.put(`/api/appts`, { date, start: slot })
+      await axios.put(`/api/appts`, { date, start: slot })
       startTime = startTime.clone().add(30, 'm')
     }
-    let res = await axios.post('/api/appt', { date, start, end, price, paid, user_id: user.id, comment, paid })
+    await axios.post('/api/appt', { date, start, end, price, paid, user_id: user.id, comment })
     this.setState({
       comment: '',
       selectedTime: '',
@@ -155,15 +155,15 @@ class Schedule extends Component {
   }
 
   deleteAppt = async (id, date, start, end) => {
-    const { pricePerHour, paid } = this.state
+    // const { pricePerHour, paid } = this.state
     let startTime = moment(start, 'h:mm a')
     const endTime = moment(end, 'h:mm a')
     while (endTime > startTime) {
       let slot = startTime.format('h:mm A')
-      let res = await axios.post(`/api/appt`, { date, start: slot, user_id: 5 })
+      await axios.post(`/api/appt`, { date, start: slot, user_id: 5 })
       startTime = startTime.clone().add(30, 'm')
     }
-    let res = await axios.delete(`/api/appt/${id}`)
+    await axios.delete(`/api/appt/${id}`)
     this.multiDoer()
     this.socket.emit('blast', {
       avail: this.state.avail,
@@ -186,11 +186,11 @@ class Schedule extends Component {
     const { start, end, selectedDay: date } = this.state
     let startTime = moment(start, 'h:mm a').subtract(30, 'm')
     let endTime = moment(end, 'h:mm a').subtract(1, 'h')
-    let initialTime = moment(start, 'h:mm a')
+    // let initialTime = moment(start, 'h:mm a')
     // let avail = [initialTime]
     while (endTime > startTime) {
       let slot = startTime.clone().add(30, 'm').format('h:mm A')
-      let res = await axios.post('/api/appt', { date, start: slot, user_id: this.props.user.id })
+      await axios.post('/api/appt', { date, start: slot, user_id: this.props.user.id })
       startTime.add(30, 'm')
     }
     this.getAvailability()
@@ -209,7 +209,7 @@ class Schedule extends Component {
     })
 
     if (text) {
-      let res = await axios.put(`/api/appt/${id}`, { comment: text })
+      await axios.put(`/api/appt/${id}`, { comment: text })
       Swal('Your comment has been edited')
       this.getSingleClientAppts()
     }
@@ -223,7 +223,7 @@ class Schedule extends Component {
 
 
   render() {
-    const { appts, selectedDay, duration, pricePerHour } = this.state
+    const { appts, duration, pricePerHour } = this.state
     let apptsToDisplay = appts.map((appt, i) => {
 
       return <Appointment key={i}
@@ -295,7 +295,7 @@ class Schedule extends Component {
 
 
                           <div>
-                            <div>
+                            <div className='selectedTime'>
                               {this.props.selectedTime}
                             </div>
                             <label for="duration">Select a duration:</label>
@@ -346,12 +346,14 @@ class Schedule extends Component {
                             <label>End time:</label>
                             <br />
                             <input onChange={e => this.handleChange('end', e.target.value)} type="text" placeholder='h:mm am' />
-                          </div>
+                            <br/>
+                            <br/>
                           <button className='addBtn' onClick={this.addAvailability}>Add Availability</button>
+                          </div>
                         </div>
                     }
                   </div>
-                  <button onClick={this.toggleApptCreator}>Finish</button>
+                  <button className='finishBtn' onClick={this.toggleApptCreator}>{!this.props.user.admin ? 'Cancel' : 'Finish'}</button>
                 </div>
               </div>
 

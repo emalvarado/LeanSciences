@@ -10,6 +10,7 @@ $main-font: 'Fjalla One', sans-serif;
     height: 100vh;
     color: #e1e1e1;
     width: 100vw;
+    min-height: fit-content;
     h3 {
         margin: 0;
         padding-top: 1rem;
@@ -19,17 +20,19 @@ $main-font: 'Fjalla One', sans-serif;
 .visibleDiv {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    // justify-content: space-between;
     height: 100%;
     padding: 9% 1%;
     padding-top: 55px;
     // margin: 0% 10%;
     box-sizing: border-box;
+    min-height: fit-content;
+
 }
 
 
 .inlineLink {
-    color: rgb(95, 156, 158);
+    color: #5f9c9e;
 }
 
 .timesBox {
@@ -47,10 +50,12 @@ $main-font: 'Fjalla One', sans-serif;
 .apptCreatorBackground {
     position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     bottom: 0;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(15, 46, 78, 0.875);
+    background-color: #1c2f51c7;
     z-index: 2;
     display: flex;
     justify-content: center;
@@ -91,17 +96,26 @@ $main-font: 'Fjalla One', sans-serif;
     padding: 2% 1%;
     box-sizing: border-box;
     textarea {
-        font-size: 10px;
+        font-size: 15px;
         height: 100px;
         width: 260px;
     }
+}
+
+.selectedTime {
+    height: 20px;
 }
 
 .timeSelection {
     flex-direction: column;
     text-align: start;
     box-sizing: border-box;
-    padding: 0 4%;
+    width: 145px;
+    margin: 5px 17px;
+    height: 100%;
+    padding: 10% 0;
+    display: flex;
+    justify-content: space-evenly;
     div {
         margin: 1% 0;
     }
@@ -121,6 +135,7 @@ $main-font: 'Fjalla One', sans-serif;
     overflow: scroll;
     box-shadow: 0px 0px 43px #bababa;
     max-height: 300px;
+    overflow-x: scroll;
 
 }
 
@@ -132,8 +147,7 @@ $main-font: 'Fjalla One', sans-serif;
     color: #ffffff;
     font-weight: 700;
     font-size: 1.25rem;
-    box-shadow:inset 0 -0.6em 1em -0.35em rgba(0,0,0,0.17),inset 0 0.6em 2em -0.3em rgba(255,255,255,0.15),inset 0 0 0em 0.05em rgba(255,255,255,0.12);
-
+    box-shadow: inset 0 -0.6em 1em -0.35em #0000002b, inset 0 0.6em 2em -0.3em #ffffff26, inset 0 0 0em 0.05em #ffffff1f;
 }
 
 .toggleBtnDiv {
@@ -146,6 +160,23 @@ button:hover {
     box-shadow: none;
 }
 
+.finishBtn {
+    float: right;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-image: -webkit-linear-gradient(#151414, #707070, #151414);
+    background-image: linear-gradient(#dcdcdc9e, #ffffff, #dcdcdc9e);
+    color: #434141;
+    font-size: .8rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    box-shadow: 2px 2px 8px #b3aeae;
+    -webkit-transition: .5s;
+    transition: .5s;
+}
+
+
+
 .scheduleQuote {
     width: 80%;
     margin: auto;
@@ -155,28 +186,33 @@ button:hover {
     p {
         font-family: $main-font;
         font-size: 3rem;
+        text-shadow: 5px 5px 15px #000000;
     }
     p:nth-of-type(-n+2) {
         text-transform: uppercase;
         color: #e6d308;
-        text-shadow: 5px 5px 15px #000000;
     }
-
+    
     p:first-of-type {
         margin-bottom: 6%;
     }
-
+    
     p:last-of-type {
         font-size: 1.75rem;
         font-family: 'Marck Script', cursive;
         margin: 1%;
     }
-
+    
 }
 
 .schedule {
+    width: 80%;
+    text-align: center;
+    margin: auto;
     h1 {
         margin-bottom: 2%;
+        text-shadow: 5px 5px 15px #000000;
+
     }
 }
 
@@ -185,5 +221,49 @@ button:hover {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding-top: 4%;
+    padding-top: 52px;
+}
+
+
+@media (max-width: 1281px) {
+    .table {
+        width: 700px;
+    }
+}
+
+@media (max-width: 958px) {
+    .table {
+        width: 500px;
+    }
+    table {
+        font-size: .6rem;
+    }
+}
+
+@media (max-width: 692px) {
+    .table {
+        width: 300px;
+        height: 200px;
+    }
+}
+
+@media (max-width:573px), (max-height: 420px) {
+    .toggleBtnDiv {
+        display: block;
+    }
+
+    .toggleBtn {
+        font-size: 1rem;
+        padding: 7px 17px;
+
+    }
+
+    .scheduleQuote {
+        p {
+            font-size: 1.3rem;
+        }
+        p:last-of-type {
+            font-size: 1rem;
+        }
+    }
 }

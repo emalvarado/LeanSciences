@@ -38,3 +38,18 @@ footer {
     padding: 0 1em;
   }
 }
+
+@media (max-width: 604px) {
+  footer, .footerContact {
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+  }
+  .footer {
+    font-size: .8rem;
+    height: 100px;
+  }
+.footerIcons, .footerContact {
+  margin: 0;
+}
+}
