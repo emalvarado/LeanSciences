@@ -2,7 +2,7 @@ $main-font: 'Fjalla One', sans-serif;
 
 .nav {
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.381);
+  background-color: #00000061;
   color: white;
   display: flex;
   justify-content: space-between;
@@ -24,12 +24,14 @@ $main-font: 'Fjalla One', sans-serif;
 .menuList {
   display: flex;
   justify-content: space-around;
-  /* background-color: rgba(255, 255, 255, 0.267); */
 
 }
 
 .menu {
   width: 700px;
+  .fas {
+    display: none
+  }
 }
 
 .displayName {
@@ -42,4 +44,36 @@ $main-font: 'Fjalla One', sans-serif;
 
 
 
+@media (max-width:573px), (max-height: 612px) {
+  .nav {
+    background-color: #000000;
+    position: relative;
+  }
+  .menu {
+    width: fit-content;
+    .fas {
+      display: flex;
+    }
+  }
+  .menuList {
+    flex-direction: column;
+    position: fixed;
+    right: 0;
+    align-items: baseline;
+    justify-content: space-evenly;
+    text-decoration: none;
+    margin: 0;
+    padding: 12px 14px;
+    background-color: #000000;
+    line-height: 1.7rem;
+    top: 45px;
+    transition: .5s;
+  }
+  .displayName{
+    display: none;
+  }
+}
 
+.hide {
+  right: -118px;
+}

@@ -8,6 +8,13 @@ import axios from 'axios'
 
 
 class Nav extends Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      showMenu: false
+    }
+  }
 
   logout = () => {
     axios.get('/auth/logout').then( () =>{
@@ -26,7 +33,8 @@ class Nav extends Component {
         </Link>
   
         <div className='menu'>
-          <ul className='menuList'>
+        <i onClick={()=> this.setState({showMenu: !this.state.showMenu})} className="fas fa-bars"></i>
+          <ul className={!this.state.showMenu ? 'hide menuList' : 'menuList'}>
             <Link to='/'><li className='menuItem'>Home</li></Link>
             <Link to='/Schedule'> <li className='menuItem'>Schedule</li></Link>
             <Link to='/Contact'> <li className='menuItem'>Contact</li></Link>

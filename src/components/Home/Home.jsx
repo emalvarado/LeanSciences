@@ -1,13 +1,13 @@
 import React from 'react'
-import { Parallax, Background } from 'react-parallax'
+import { Parallax, /*Background*/ } from 'react-parallax'
 import './Home.scss'
 
 function Home(props) {
   // console.log(props)
-  const styles = {
-    fontFamily: "sans-serif",
-    textAlign: "center"
-  };
+  // const styles = {
+  //   fontFamily: "sans-serif",
+  //   textAlign: "center"
+  // };
   const insideStyles = {
     padding: 20,
     position: "absolute",

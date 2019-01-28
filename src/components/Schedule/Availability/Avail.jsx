@@ -3,18 +3,16 @@ import moment from 'moment'
 import './Avail.scss'
 import { connect } from 'react-redux'
 import { selectTime } from '../../../ducks/reducer'
-import { link } from 'fs';
-import axios from 'axios'
 
 
 
 
 
 class Avail extends Component {
-  constructor(props) {
-    super(props)
+  // constructor(props) {
+  //   super(props)
 
-  }
+  // }
 
 // componentDidMount = () => {
 //   this.getAvailability()
@@ -55,6 +53,13 @@ componentDidUpdate(prevProps, prevState) {
     return (
       <div
         className='availMulti'>
+        {
+          availToDisplay[0]
+        ?
+        <h6>Available Times:</h6>
+        :
+        <h6>No openings available.</h6>
+      }
         {availToDisplay}
       </div>
     )

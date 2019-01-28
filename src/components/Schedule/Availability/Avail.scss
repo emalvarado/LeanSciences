@@ -1,0 +1,14 @@
+.availMulti {
+  width: 90px;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 10px 5px;
+  overflow: scroll;
+  h6 {
+    margin: 2px 0;
+    margin-bottom: 17px;
+  }
+  li {
+    font-size: 1rem;
+  }
+}
