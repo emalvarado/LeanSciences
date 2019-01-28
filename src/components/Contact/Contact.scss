@@ -4,6 +4,7 @@
   display: flex;
   justify-content: space-evenly;
   margin: 0 10%;
+
   h1, h3 {
     font-family: "Fjalla One", sans-serif;
     font-weight: 100;
@@ -11,9 +12,11 @@
   }
 }
 
+.contactBox {
+  width: 50%;
+}
+
 .contactDiv {
-  width: 50vw;
-  align-items: flex-start;
   text-align: left;
   padding: 0 10%;
 p {
@@ -61,7 +64,6 @@ h1 {
 
 .mapDiv {
   text-align: left;
-  width: 50%;
   margin-top: 18px;
   h3 {
     font-size: 2rem;
@@ -73,5 +75,42 @@ h1 {
   p{
     font-weight: 400;
     text-transform: uppercase;
+  }
+}
+
+.map {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+
+
+iframe {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@media (max-width:834px) {
+  .contactPage {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0;
+  }
+  .contactBox {
+    margin: 20px;
+  }
+  .contactInputs {
+    height: 400px;
+  }
+}
+
+@media (max-width:666px) {
+  .contactBox {
+    width: 100%;
   }
 }

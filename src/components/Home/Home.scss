@@ -12,6 +12,11 @@
 
 .homeHeading {
   font-family: "Fjalla One", sans-serif;
+  top: 40%;
+  left: 40%;
+  transform: translate(-50%,-50%);
+  padding: 20;
+  position: absolute;
   h1 {
     font-size: 3rem;
     font-weight: 100;
@@ -32,7 +37,8 @@
   // font-family: 'Poppins', sans-serif;
   line-height: 1.5rem;
   font-size: 1.2rem;
-  padding: 3% 0;
+  padding: 5% 0;
+  height: fit-content;
   
   ul {
     display: flex;
@@ -44,6 +50,7 @@
     font-weight: inherit;
     font-family: "Fjalla One", sans-serif;
     font-size: 1.75rem;
+    line-height: 2.2rem;
   }
   p, ul {
     font-weight: 300;
@@ -63,7 +70,53 @@
   flex-direction: column;
   margin: 0 20%;
   justify-content: center;
+  padding: 3% 0;
+  height: fit-content;
   p {
     text-align: right;
+  }
+}
+
+@media (max-width:900px) {
+  .react-parallax {
+    height: 400px;
+  }
+}
+
+@media (max-width: 545px) {
+  .homeHeading {
+    top: 0;
+    left: 0;
+    transform: none;
+    padding: 20px;
+    margin: auto;
+    h1 {
+      font-size: 2rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
+  .homeInfo {
+    font-size: .75rem;
+    h3 {
+      font-size: 1.15rem;
+    }
+    ul {
+      text-align: left;
+
+    }
+    li {
+      list-style: initial;
+    }
+  }
+  .homeQuote {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 270px) {
+  .homeQuote {
+    font-size: 1rem;
   }
 }

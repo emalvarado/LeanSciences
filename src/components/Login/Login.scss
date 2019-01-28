@@ -75,3 +75,44 @@ p {
   font-weight: bold;
   transition: .5s;
 }
+
+
+@media (max-width: 937px), (max-height: 738px) {
+  .loginbox {
+    padding: 25px;
+    border-radius: 7px;
+    height: fit-content;
+  }
+  .userInput {
+    font-size: .7rem;
+  }
+  .loginpage {
+    input {
+      font-size: .7rem;
+      width: initial;
+      height: initial;
+    }
+    h1 {
+    font-size: 1rem;
+    }
+  }
+  .login {
+    margin: 0;
+  }
+  .loginButton {
+    font-size: .7rem;
+    padding: 5px 10px;
+  }
+}
+
+@media (max-width: 506px), (max-height: 472px) {
+  .mainbox {
+    flex-direction: column;
+    overflow: scroll;
+    justify-content: unset;
+
+  }
+  .loginbox {
+    margin: 11px 0;
+  }
+}

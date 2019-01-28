@@ -345,12 +345,12 @@ class Schedule extends Component {
                           <div>
                             <label>Start time:</label>
                             <br />
-                            <input onChange={e => this.handleChange('start', e.target.value)} type="text" placeholder='h:mm am' />
+                            <input onChange={e => this.handleChange('start', e.target.value)} type="time" placeholder='h:mm am' />
                           </div>
                           <div>
                             <label>End time:</label>
                             <br />
-                            <input onChange={e => this.handleChange('end', e.target.value)} type="text" placeholder='h:mm am' />
+                            <input onChange={e => this.handleChange('end', e.target.value)} type="time" placeholder='h:mm am' />
                             <br/>
                             <br/>
                           <button className='addBtn' onClick={this.addAvailability}>Add Availability</button>
