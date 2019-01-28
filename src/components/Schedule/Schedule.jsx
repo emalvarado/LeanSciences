@@ -145,9 +145,14 @@ class Schedule extends Component {
     await this.multiDoer()
     this.toggleApptCreator()
     this.props.setPaid()
+    this.props.selectTime()
     this.socket.emit('blast', {
       avail: this.state.avail,
       appts: this.state.appts
+    })
+    this.setState({
+      comment: '',
+      selectedDay: new Date()
     })
 
     // console.log(res.data)

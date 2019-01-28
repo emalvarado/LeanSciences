@@ -57,7 +57,7 @@ $main-font: 'Fjalla One', sans-serif;
   }
   .menuList {
     flex-direction: column;
-    position: fixed;
+    position: absolute;
     right: 0;
     align-items: baseline;
     justify-content: space-evenly;

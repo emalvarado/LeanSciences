@@ -23,6 +23,12 @@ class Nav extends Component {
     })
   }
 
+  toggleMenu = () => {
+    this.setState({
+      showMenu: !this.state.showMenu
+    })
+  }
+
   render(){
     return (
       <div className='nav'>
@@ -33,18 +39,18 @@ class Nav extends Component {
         </Link>
   
         <div className='menu'>
-        <i onClick={()=> this.setState({showMenu: !this.state.showMenu})} className="fas fa-bars"></i>
+        <i onClick={this.toggleMenu} className="fas fa-bars"></i>
           <ul className={!this.state.showMenu ? 'hide menuList' : 'menuList'}>
-            <Link to='/'><li className='menuItem'>Home</li></Link>
-            <Link to='/Schedule'> <li className='menuItem'>Schedule</li></Link>
-            <Link to='/Contact'> <li className='menuItem'>Contact</li></Link>
+            <Link onClick={this.toggleMenu} to='/'><li className='menuItem'>Home</li></Link>
+            <Link onClick={this.toggleMenu} to='/Schedule'> <li className='menuItem'>Schedule</li></Link>
+            <Link onClick={this.toggleMenu} to='/Contact'> <li className='menuItem'>Contact</li></Link>
             {this.props.user.first ?
               <div>
-              <Link to='/Login'> <li onClick={this.logout} className='menuItem'>Logout</li></Link>
+              <Link onClick={this.toggleMenu} to='/Login'> <li onClick={this.logout} className='menuItem'>Logout</li></Link>
               <span className='displayName'>Hi, {this.props.user.first} </span>
               </div>
               :
-              <Link to='/Login'> <li className='menuItem'>Login</li></Link>
+              <Link onClick={this.toggleMenu} to='/Login'> <li className='menuItem'>Login</li></Link>
             }
           </ul>
   

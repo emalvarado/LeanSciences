@@ -232,6 +232,22 @@ button:hover {
 }
 
 @media (max-width: 958px) {
+    .apptCreatorBackground {
+        padding: 0;
+    }
+    .apptCreator {
+        box-sizing: border-box;
+        height: calc(100vh - 20px);
+        overflow: scroll;
+        padding: 10px;
+        padding-bottom: 60px;
+    }
+    .apptContainers {
+        flex-direction: column;
+        height: fit-content;
+
+    }
+
     .table {
         width: 500px;
     }
@@ -243,7 +259,8 @@ button:hover {
 @media (max-width: 692px) {
     .table {
         width: 300px;
-        height: 200px;
+        min-height: fit-content;
+        max-height: 200px;
     }
 }
 
