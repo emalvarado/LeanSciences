@@ -44,22 +44,22 @@ class Contact extends Component {
             <div>
               <label>Name:</label>
               <br />
-              <input onChange={(e) => this.handleChange('name', e.target.value)} type="text" />
+              <input value={this.state.name} onChange={(e) => this.handleChange('name', e.target.value)} type="text" />
             </div>
             <div>
               <label>Email Address:</label>
               <br />
-              <input onChange={(e) => this.handleChange('email', e.target.value)} type="email" />
+              <input value={this.state.email} onChange={(e) => this.handleChange('email', e.target.value)} type="email" />
             </div>
             <div>
               <label>Phone:</label>
               <br />
-              <input onChange={(e) => this.handleChange('phone', e.target.value)} type="tel" />
+              <input value={this.state.phone} onChange={(e) => this.handleChange('phone', e.target.value)} type="tel" />
             </div>
             <div>
               <label>Message:</label>
               <br />
-              <textarea onChange={(e) => this.handleChange('message', e.target.value)} type="text"></textarea>
+              <textarea value={this.state.message} onChange={(e) => this.handleChange('message', e.target.value)} type="text"></textarea>
               <br />
               <br />
               <button onClick={this.handleSubmit}>Submit</button>
