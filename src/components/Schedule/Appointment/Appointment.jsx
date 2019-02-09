@@ -8,7 +8,7 @@ function Appointment(props) {
   const endTime = moment(end, 'H:mm:ss')
   const startTime = moment(start, 'H:mm:ss')
   const duration = moment.duration(endTime.diff(startTime)).as('m')
-  const formattedDate = moment(date, 'YYYY-MM-DDTHH:mm:ss.sssZ').format('M/D/YYYY')
+  const formattedDate = moment.utc(date, 'YYYY-MM-DDTHH:mm:ss.sssZ').format('M/D/YYYY')
   const formattedStart = startTime.format('h:mm a')
   // console.log(duration)
   if (props.admin === true) {
