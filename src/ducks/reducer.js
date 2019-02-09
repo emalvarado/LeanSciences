@@ -7,6 +7,7 @@ const initialState = {
 const GET_USER_DATA = 'GET_USER_DATA'
 const SELECT_TIME = 'SELECT_TIME'
 const SET_PAID = 'SET_PAID'
+//action types
 
 
 export function getUserData(userInfo) {
@@ -15,6 +16,7 @@ export function getUserData(userInfo) {
     payload: userInfo
   }
 }
+//action creators
 
 export function selectTime(time) {
   return {

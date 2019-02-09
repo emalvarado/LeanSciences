@@ -166,7 +166,7 @@ app.post('/send', async (req, res) => {
 
 //sockets
 io.on('connection', (socket)=> {
-  console.log('socket connected')
+  // console.log('socket connected')
   socket.on('blast', data => {
     io.sockets.emit('recieved', data)
   })
